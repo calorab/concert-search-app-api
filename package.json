@@ -1,0 +1,38 @@
+{
+    "name": "concert-search-app-api",
+    "version": "1.0.0",
+    "description": "The Search Concerts by Artist app lets you add artists you love to your follow list then find their upcoming concerts",
+    "dependencies": {
+        "bcryptjs": "^2.3.0",
+        "body-parser": "^1.15.2",
+        "cors": "^2.8.4",
+        "express": "^4.14.0",
+        "moment": "^2.18.1",
+        "mongodb": "^2.2.9",
+        "mongoose": "^4.5.10",
+        "nodemon": "^1.18.9",
+        "passport": "^0.3.2",
+        "passport-http": "^0.3.0",
+        "unirest": "^0.5.1"
+    },
+    "devDependencies": {
+        "chai": "^3.5.0",
+        "chai-http": "^4.2.0",
+        "faker": "^3.1.0",
+        "mocha": "^5.2.0"
+    },
+    "scripts": {
+        "test": "mocha",
+        "start": "node server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "author": "Caleb Gammon",
+    "license": "ISC",
+    "bugs": {
+        "url": ""
+    },
+    "homepage": ""
+}

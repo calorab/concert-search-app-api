@@ -1,0 +1,11 @@
+language: node_js
+node_js: node
+services:
+- mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: B0Uo/vmiJ0Yj/TZJUW/H1wY5QoV4gVEuOn3q5JMIVJcehck/gC3oFE7UkdqvU7yDcKWYbDeDa+kFGwnImWCsPJ1Qq45HvcDQvkzyaMDw1gq2r8FjLpSV1RoiVI9gybWO20cDQyOFSTCSylhKbFOhYvkS5FBR2d5VuJCmpc6nYNERf9Vvmxd+B0lfjPHxglfSD5xkw1LkGPbWvn8nq/gF5tfS53diBV2hV3X7ISKFi+mWISz77m31A11pfshKqHmQyr57VahddW2tZFgV1Jrixyd3n89hpzIQjDRZl6twcXcm+1S6XZ+IQhfiJfgFuQ7mFVW/Yn1hGNGiH0pDP64GnB9gp75mbQfpKHOnDvei5FYO+qtlrReDTsCUrGWUYxB3HVQo7F6/HkY9fjUXkUR074G9mrk1o2svctAhl7hfGFjk3P2Gecdxev2NwNuoc4D4qwr725DLDzDgSfB/uU4AdxiIv5O/ygzrCCxt+1Cm4oz37ETzNgfKfuwwFO6YSQpuKsbYb2sn9SSpIZ6tsV/zewNoCI5pqiFXOg+SLJ4Z/f+pEgFIBC9me93Zh7yb09ytkSN3RSk2K4J9PvyzNMmoXShDlNp59la8vvHhRO0EgqKEJY3ZXpYfZxEQx/eGPa8XLRXqEqhdutv3kpJ44n31rTrXDQiRH1oSpmbQzywIJ0E=
+  app: floating-savannah-68896
+  on:
+    repo: calorab/concert-search-app-api

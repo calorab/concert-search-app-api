@@ -27,12 +27,12 @@
     },
     "repository": {
         "type": "git",
-        "url": ""
+        "url": "https://github.com/calorab/concert-search-app-api.git"
     },
     "author": "Caleb Gammon",
     "license": "ISC",
     "bugs": {
-        "url": ""
+        "url": "https://floating-savannah-68896.herokuapp.com/"
     },
-    "homepage": ""
+    "homepage": "https://floating-savannah-68896.herokuapp.com/"
 }

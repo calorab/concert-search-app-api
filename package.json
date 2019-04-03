@@ -3,21 +3,22 @@
     "version": "1.0.0",
     "description": "The Search Concerts by Artist app lets you add artists you love to your follow list then find their upcoming concerts",
     "dependencies": {
-        "bcryptjs": "^2.3.0",
+        "bcryptjs": "^2.4.3",
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
         "express": "^4.16.4",
-        "moment": "^2.18.1",
-        "mongodb": "^2.2.9",
+        "moment": "^2.24.0",
+        "mongodb": "^2.2.36",
         "mongoose": "^4.13.18",
-        "nodemon": "^1.18.9",
+        "nodemon": "^1.18.10",
         "passport": "^0.3.2",
         "passport-http": "^0.3.0",
+        "react-router-dom": "^5.0.0",
         "unirest": "^0.5.1"
     },
     "devDependencies": {
         "chai": "^3.5.0",
-        "chai-http": "^4.2.0",
+        "chai-http": "^4.2.1",
         "faker": "^3.1.0",
         "mocha": "^5.2.0"
     },

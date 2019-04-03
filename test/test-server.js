@@ -28,6 +28,16 @@ function seedUserData() {
     return User.insertMany(seedData);
 }
 
+// Tear down Database after each test
+function tearDownDb() {
+    return new Promise((resolve, reject) => {
+        console.warn('Deleting database');
+        mongoose.connection.dropDatabase()
+            .then(result => resolve(result))
+            .catch(err => reject(err));
+    });
+}
+
 
 // --------------- Test User Endpoints ---------------
 
@@ -72,7 +82,7 @@ describe('User API resource', function () {
 });
 
 
-// -------set up config.js with test database url-------
+// CALEB-------confirm set up of config.js with test database url is correct-------
 const {
     TEST_DATABASE_URL
 } = require('../config');

@@ -196,6 +196,7 @@ app.post('/users/login', function (req, res) {
         };
     });
 });
+// ---------------END OF USER ENDPOINTS-------------------------------------
 
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));

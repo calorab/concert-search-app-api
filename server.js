@@ -1,12 +1,12 @@
 const express = require('express');
 
 const cors = require('cors');
-const {CLIENT_ORIGIN} = require('./config');
+const {CLIENT_ORIGIN, DATABASE_URL} = require('./config');
 //const User = require('./models/user');
 //const Investment = require('./models/investment');
 //const Portfolio = require('./models/portfolios');
 const bodyParser = require('body-parser');
-//const config = require('./config');
+const config = require('./config');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const bcrypt = require('bcryptjs');
@@ -15,8 +15,10 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 const https = require('https');
 const http = require('http');
 
-//var unirest = require('unirest');
-//var events = require('events');
+// -------need webpack??? -------
+
+var unirest = require('unirest');
+var events = require('events');
 
 const app = express();
 app.use(bodyParser.json());

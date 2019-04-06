@@ -28,6 +28,17 @@ function seedUserData() {
     return User.insertMany(seedData);
 }
 
+//function generateArtistData() {
+//
+//
+//    return {
+//        artistName: 'Alison Wonderland',
+//        artistId: '5be23cb71',
+//        artistUrl: 'songkick.com'
+//    }
+//}
+
+
 // Tear down Database after each test
 function tearDownDb() {
     return new Promise((resolve, reject) => {
@@ -80,12 +91,6 @@ describe('User API resource', function () {
         return closeServer();
     });
 });
-
-
-// CALEB-------confirm set up of config.js with test database url is correct-------
-const {
-    TEST_DATABASE_URL
-} = require('../config');
 
 const should = chai.should();
 chai.use(chaiHttp);

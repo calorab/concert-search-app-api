@@ -32,7 +32,7 @@ let server;
 
 function runServer(urlToUse) {
     return new Promise((resolve, reject) => {
-        mongoose.connect(urlToUse, err => {
+        mongoose.connect(urlToUse, { useNewUrlParser: true }, err => {
             if (err) {
                 return reject(err);
             }
@@ -201,6 +201,5 @@ app.post('/users/login', function (req, res) {
 // ---------------END OF USER ENDPOINTS-------------------------------------
 
 
-app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
 module.exports = {app};

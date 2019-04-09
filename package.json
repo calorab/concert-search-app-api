@@ -7,6 +7,7 @@
         "body-parser": "^1.18.3",
         "cors": "^2.8.5",
         "express": "^4.16.4",
+        "fetchers": "^0.2.1",
         "moment": "^2.24.0",
         "mongoose": "^5.5.0",
         "nodemon": "^1.18.11",

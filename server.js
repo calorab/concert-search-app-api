@@ -2,9 +2,8 @@ const express = require('express');
 
 const cors = require('cors');
 const {CLIENT_ORIGIN, DATABASE_URL} = require('./config');
-//const User = require('./models/user');
-//const Investment = require('./models/investment');
-//const Portfolio = require('./models/portfolios');
+const User = require('./models/users');
+const FollowedArtists = require('./models/followedartists');
 const bodyParser = require('body-parser');
 const config = require('./config');
 const mongoose = require('mongoose');
@@ -78,7 +77,7 @@ app.get('/api/*', (req, res) => {
 });
 
 
-// ---------------USER ENDPOINTS-------------------------------------
+// ---------------USERS ENDPOINTS-------------------------------------
 // POST -----------------------------------
 // creating a new user
 app.post('/users/create', (req, res) => {
@@ -201,5 +200,108 @@ app.post('/users/login', function (req, res) {
 // ---------------END OF USER ENDPOINTS-------------------------------------
 
 
+
+// -------------FollowedArtists ENDPOINTS------------------------------------------------
+// POST -----------------------------------------
+// creating a new Investment
+app.post('/followedArtists/create', (req, res) => {
+    let artistName = req.body.artistName;
+    let artistId = req.body.artistId;
+    //unsure if i'm going to keep this one***
+    let artistUrl = req.body.artistUrl;
+
+    console.log(artistName, artistId);
+
+    //external api function call and response -------- DIRK - Keep this way if API call from client??
+    let searchReq = getFromBarchart(investmentSymbol);
+
+    //get the data from the first api call
+    searchReq.on('end', function (portfolioDetailsOutput) {
+        console.log(portfolioDetailsOutput);
+
+        //After gettig data from API, save in the DB
+        FollowedArtists.create({
+            artistName,
+            artistId,
+
+            //CALEB -------UPDATE!!-------
+
+            artistUrl: portfolioDetailsOutput.results[0].lastPrice
+        }, (err, addedPortfolioDataOutput) => {
+            console.log(addedPortfolioDataOutput);
+            if (err) {
+                return res.status(500).json({
+                    message: 'Internal Server Error'
+                });
+            }
+            if (addedPortfolioDataOutput) {
+                return res.json(addedPortfolioDataOutput);
+            }
+        });
+    });
+
+    //error handling
+    searchReq.on('error', function (code) {
+        res.sendStatus(code);
+    });
+
+
+
+});
+
+// PUT --------------------------------------
+//app.put('/investment/:symbol', function (req, res) {
+//    let toUpdate = {};
+//
+//    let updateableFields = ['investmentSymbol'];
+//    updateableFields.forEach(function (field) {
+//        if (field in req.body) {
+//            toUpdate[field] = req.body[field];
+//        }
+//    });
+//    //    console.log(toUpdate);
+//    Investment
+//        .findByIdAndUpdate(req.params.id, {
+//        $set: toUpdate
+//    }).exec().then(function (output) {
+//        return res.status(204).end();
+//    }).catch(function (err) {
+//        return res.status(500).json({
+//            message: 'Internal Server Error'
+//        });
+//    });
+//});
+
+
+// GET ------------------------------------
+
+//DIRK -------- Is get-artist-by-id needed?
+
+// accessing a single investment by id
+app.get('/investment/:id', function (req, res) {
+    Investment
+        .findById(req.params.id).exec().then(function (investment) {
+        return res.json(investment);
+    })
+        .catch(function (investment) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Internal Server Error'
+        });
+    });
+});
+
+// DELETE ----------------------------------------
+// deleting an investment by id CALEB
+app.delete('/investment/:id', function (req, res) {
+    Investment.findByIdAndRemove(req.params.id).exec().then(function (investment) {
+        return res.status(204).end();
+    }).catch(function (err) {
+        return res.status(500).json({
+            message: 'Internal Server Error'
+        });
+    });
+});
+// -------------END FollowedArtists ENDPOINTS------------------------------------------------
 
 module.exports = {app};

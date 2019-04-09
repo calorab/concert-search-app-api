@@ -20,6 +20,6 @@ const followedArtistsSchema = new mongoose.Schema({
     }
 });
 
-const Investment = mongoose.model('Investment', investmentSchema);
+const FollowedArtists = mongoose.model('FollowedArtists', followedArtistsSchema);
 
-module.exports = Investment;
+module.exports = FollowedArtists;

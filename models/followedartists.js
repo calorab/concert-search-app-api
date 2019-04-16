@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 
 
 const followedArtistsSchema = new mongoose.Schema({
-    //change type to relavent data later
     artistName: {
         type: String,
         required: false
@@ -13,9 +12,8 @@ const followedArtistsSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    // CALEB-------URL is valid for "type"?-------
     artistUrl: {
-        type: URL,
+        type: String,
         required: false
     }
 });

@@ -1,15 +1,22 @@
-exports.DATABASE_URL = process.env.DATABASE_URL || global.DATABASE_URL || 'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true';
 
-// -------need to update this with the correct link if this isn't right-------
-exports.TEST_DATABASE_URL = process.env.TEST_DATABASE_URL ||
-    'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true';
-exports.PORT = process.env.PORT || 8080;
+module.exports = {
+    CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:3000/',
+    DATABASE_URL: process.env.DATABASE_URL || global.DATABASE_URL || 'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true',
+    TEST_DATABASE_URL: process.env.TEST_DATABASE_URL ||
+    'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true',
+    PORT: process.env.PORT || 8080
+};
+    //'https://guarded-taiga-49879.herokuapp.com/'
+
+
+
+
 
 //per Dirk - notes
 //export.API_ENDPOINT=''
 
 //-------
-//JSON response for artist search:
+//-------JSON response for artist search:
 //{
 //    "resultsPage": {
 //        "status": "ok",
@@ -29,11 +36,11 @@ exports.PORT = process.env.PORT || 8080;
 //                        ],
 //                        "onTourUntil": "2019-12-19"
 //                    }
-//API URL: (for Cher)
+//-------API URL: (for Cher)
 //https://api.songkick.com/api/3.0/search/artists.json?apikey=ZOV7FltnOvfdD7o9&query=cher
 
 
-//JSON response: (concert search)
+//-------JSON response: (concert search)
 //{
 //    "resultsPage": {
 //        "status": "ok",

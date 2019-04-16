@@ -21,8 +21,13 @@ var events = require('events');
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
 app.use(express.static('public'));
+
+app.use(
+    cors({
+        origin: CLIENT_ORIGIN
+    })
+);
 
 mongoose.Promise = global.Promise;
 
@@ -30,6 +35,7 @@ mongoose.Promise = global.Promise;
 let server;
 
 function runServer(urlToUse) {
+    console.log(urlToUse, typeof urlToUse);
     return new Promise((resolve, reject) => {
         mongoose.connect(urlToUse, { useNewUrlParser: true }, err => {
             if (err) {
@@ -64,11 +70,7 @@ function closeServer() {
 }
 
 //----------- Built in for testing -----------
-app.use(
-    cors({
-        origin: CLIENT_ORIGIN
-    })
-);
+
 
 const PORT = process.env.PORT || 3000;
 
@@ -98,7 +100,7 @@ app.post('/users/create', (req, res) => {
 
             //display it
             return res.status(500).json({
-                message: 'Internal server error'
+                message: 'Internal server error key'
             });
         }
 
@@ -110,7 +112,7 @@ app.post('/users/create', (req, res) => {
 
                 //display it
                 return res.status(500).json({
-                    message: 'Internal server error'
+                    message: 'Internal server error ncrypted'
                 });
             }
 
@@ -124,7 +126,7 @@ app.post('/users/create', (req, res) => {
                 if (err) {
                     //display it
                     return res.status(500).json({
-                        message: 'Internal Server Error'
+                        message: 'Internal Server Error userdb'
                     });
                 }
                 //if creating a new user in the DB is succefull
@@ -203,7 +205,7 @@ app.post('/users/login', function (req, res) {
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
-// creating a new Investment
+// creating a new followed artist
 app.post('/followedArtists/create', (req, res) => {
     let artistName = req.body.artistName;
     let artistId = req.body.artistId;
@@ -212,7 +214,7 @@ app.post('/followedArtists/create', (req, res) => {
 
     console.log(artistName, artistId);
 
-    //external api function call and response -------- DIRK - Keep this way if API call from client??
+    //external api function call and response
     let searchReq = getFromBarchart(investmentSymbol);
 
     //get the data from the first api call
@@ -249,36 +251,13 @@ app.post('/followedArtists/create', (req, res) => {
 
 });
 
-// PUT --------------------------------------
-//app.put('/investment/:symbol', function (req, res) {
-//    let toUpdate = {};
-//
-//    let updateableFields = ['investmentSymbol'];
-//    updateableFields.forEach(function (field) {
-//        if (field in req.body) {
-//            toUpdate[field] = req.body[field];
-//        }
-//    });
-//    //    console.log(toUpdate);
-//    Investment
-//        .findByIdAndUpdate(req.params.id, {
-//        $set: toUpdate
-//    }).exec().then(function (output) {
-//        return res.status(204).end();
-//    }).catch(function (err) {
-//        return res.status(500).json({
-//            message: 'Internal Server Error'
-//        });
-//    });
-//});
-
 
 // GET ------------------------------------
 
 //DIRK -------- Is get-artist-by-id needed?
 
 // accessing a single investment by id
-app.get('/investment/:id', function (req, res) {
+app.get('/artist/:id', function (req, res) {
     Investment
         .findById(req.params.id).exec().then(function (investment) {
         return res.json(investment);
@@ -293,15 +272,15 @@ app.get('/investment/:id', function (req, res) {
 
 // DELETE ----------------------------------------
 // deleting an investment by id CALEB
-app.delete('/investment/:id', function (req, res) {
-    Investment.findByIdAndRemove(req.params.id).exec().then(function (investment) {
-        return res.status(204).end();
-    }).catch(function (err) {
-        return res.status(500).json({
-            message: 'Internal Server Error'
-        });
-    });
-});
+//app.delete('/investment/:id', function (req, res) {
+//    Investment.findByIdAndRemove(req.params.id).exec().then(function (investment) {
+//        return res.status(204).end();
+//    }).catch(function (err) {
+//        return res.status(500).json({
+//            message: 'Internal Server Error'
+//        });
+//    });
+//});
 // -------------END FollowedArtists ENDPOINTS------------------------------------------------
 
 module.exports = {app};

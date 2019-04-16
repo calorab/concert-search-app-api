@@ -13,6 +13,7 @@ const passport = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const https = require('https');
 const http = require('http');
+const request = require('request');
 
 // -------need webpack??? -------
 
@@ -207,28 +208,21 @@ let getArtistFromSongkick = function (artist) {
 
 
     let options = {
-        host: 'api.songkick.com',
-        path: "/api/3.0/search/artists.json?apikey=ZOV7FltnOvfdD7o9&query=" + artist,
-        method: 'GET',
+        host: 'https://api.songkick.com/api/3.0/search/artists.json?apikey=ZOV7FltnOvfdD7o9&query=' + artist,
         headers: {
-            'Content-Type': "application/json",
-            'Port': 443
+            'User-Agent': 'request'
         }
     };
 
-    https.get(options, function (res) {
-        let body = '';
-        res.on('data', function (chunk) {
-            body += chunk;
-            let jsonFormattedResults = JSON.parse(body);
-            emitter.emit('end', jsonFormattedResults);
-        });
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            const info = JSON.parse(body);
+            console.log(info);
+            console.log('line 224');
+        }
+    }
 
-    }).on('error', function (e) {
-
-        emitter.emit('error', e);
-    });
-    return emitter;
+    request(options, callback);
 };
 
 //local API endpont communicating with the external api endpoint
@@ -236,7 +230,10 @@ app.get('/songkick/:artist', function (req, res) {
 
 
     //external api function call and response ----- CALEB artistName or artist? ****
-    let searchReq = getArtistFromSongkick(req.params.artistName);
+    let searchReq = getArtistFromSongkick(req.params.artist);
+    console.log(req.params.artist); //"undefined" per json.res
+    console.log('line 242');
+
 
     //get the data from the first api call
     searchReq.on('end', function (item) {
@@ -257,29 +254,36 @@ let getConcertsByArtist = function (artistId) {
 
 
     let options = {
-        host: 'api.songkick.com',
-        path: "/api/3.0/artists/" + artistId + "/calendar.json?apikey=ZOV7FltnOvfdD7o9",
-        method: 'GET',
+        host: 'api.songkick.com/api/3.0/artists/' + artistId + "/calendar.json?apikey=ZOV7FltnOvfdD7o9",
         headers: {
-            'Content-Type': "application/json",
-            'Port': 443
+            'User-Agent': 'request'
         }
     };
 
-    https.get(options, function (res) {
-        let body = '';
-        res.on('data', function (chunk) {
-            body += chunk;
-            let jsonFormattedResults = JSON.parse(body);
-            emitter.emit('end', jsonFormattedResults);
-        });
+    function callback(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            const info = JSON.parse(body);
+            console.log(info);
+            console.log('line 224');
+        }
+    }
 
-    }).on('error', function (e) {
+    request(options, callback);
 
-        emitter.emit('error', e);
-    });
-    return emitter;
-};
+//    https.get(options, function (res) {
+//        let body = '';
+//        res.on('data', function (chunk) {
+//            body += chunk;
+//            let jsonFormattedResults = JSON.parse(body);
+//            emitter.emit('end', jsonFormattedResults);
+//        });
+//
+//    }).on('error', function (e) {
+//
+//        emitter.emit('error', e);
+//    });
+//    return emitter;
+//};
 
 //local API endpont communicating with the external api endpoint
 app.get('/songkick/concerts-by-artist', function (req, res) {

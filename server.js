@@ -229,13 +229,13 @@ let getArtistFromSongkick = function (artist) {
 app.get('/songkick/:artist', function (req, res) {
 
 
-    //external api function call and response ----- CALEB artistName or artist? ****
+    //external api function call and response
     let searchReq = getArtistFromSongkick(req.params.artist);
     console.log(req.params.artist); //"undefined" per json.res
     console.log('line 242');
 
 
-    //get the data from the first api call
+    //get the data from the first api call CALEB---"create a callback in a callback" can't read 'on' of undefined"
     searchReq.on('end', function (item) {
         res.json(item);
     });
@@ -269,21 +269,8 @@ let getConcertsByArtist = function (artistId) {
     }
 
     request(options, callback);
+};
 
-//    https.get(options, function (res) {
-//        let body = '';
-//        res.on('data', function (chunk) {
-//            body += chunk;
-//            let jsonFormattedResults = JSON.parse(body);
-//            emitter.emit('end', jsonFormattedResults);
-//        });
-//
-//    }).on('error', function (e) {
-//
-//        emitter.emit('error', e);
-//    });
-//    return emitter;
-//};
 
 //local API endpont communicating with the external api endpoint
 app.get('/songkick/concerts-by-artist', function (req, res) {

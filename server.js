@@ -304,6 +304,22 @@ app.get('/songkick/concerts-by-artist', function (req, res) {
 
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
+// GET -----------------------------------------
+app.get('/followedArtists/:userId', function (req, res) {
+    FollowedArtists
+        .find({
+        userId: req.params.userId
+    }).exec().then(function (followedArtists) {
+        return res.json(followedArtists);
+    })
+        .catch(function (followedArtists) {
+        console.error(err);
+        res.status(500).json({
+            message: 'Internal Server Error'
+        });
+    });
+});
+
 // POST -----------------------------------------
 // creating a new followed artist
 app.post('/followedArtists/create', (req, res) => {
@@ -319,26 +335,23 @@ app.post('/followedArtists/create', (req, res) => {
     let searchReq = getArtistFromSongkick(artistName);
 
     //get the data from the first api call
-    searchReq.on('end', function (portfolioDetailsOutput) {
-        console.log(portfolioDetailsOutput);
+    searchReq.on('end', function (artistDetailsOutput) {
+        console.log(artistDetailsOutput);
 
         //After gettig data from API, save in the DB
         FollowedArtists.create({
-            artistName,
-            artistId,
-
-            //CALEB -------UPDATE!!-------
-
-            artistUrl: portfolioDetailsOutput.results[0].lastPrice
-        }, (err, addedPortfolioDataOutput) => {
-            console.log(addedPortfolioDataOutput);
+            artistName: artistDetailsOutput.results[0].artist.displayName,
+            artistId: artistDetailsOutput.results[0].artist.id,
+            artistUrl: artistDetailsOutput.results[0].artist.uri
+        }, (err, addedArtistDataOutput) => {
+            console.log(addedArtistDataOutput);
             if (err) {
                 return res.status(500).json({
                     message: 'Internal Server Error'
                 });
             }
-            if (addedPortfolioDataOutput) {
-                return res.json(addedPortfolioDataOutput);
+            if (addedArtistDataOutput) {
+                return res.json(addedArtistDataOutput);
             }
         });
     });

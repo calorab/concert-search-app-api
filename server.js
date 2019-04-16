@@ -201,6 +201,106 @@ app.post('/users/login', function (req, res) {
 });
 // ---------------END OF USER ENDPOINTS-------------------------------------
 
+// ---------------THIRD PARTY Artist API CALL-------------------------------------
+let getArtistFromSongkick = function (artist) {
+    let emitter = new events.EventEmitter();
+
+
+    let options = {
+        host: 'api.songkick.com',
+        path: "/api/3.0/search/artists.json?apikey=ZOV7FltnOvfdD7o9&query=" + artist,
+        method: 'GET',
+        headers: {
+            'Content-Type': "application/json",
+            'Port': 443
+        }
+    };
+
+    https.get(options, function (res) {
+        let body = '';
+        res.on('data', function (chunk) {
+            body += chunk;
+            let jsonFormattedResults = JSON.parse(body);
+            emitter.emit('end', jsonFormattedResults);
+        });
+
+    }).on('error', function (e) {
+
+        emitter.emit('error', e);
+    });
+    return emitter;
+};
+
+//local API endpont communicating with the external api endpoint
+app.get('/songkick/:artist', function (req, res) {
+
+
+    //external api function call and response ----- CALEB artistName or artist? ****
+    let searchReq = getArtistFromSongkick(req.params.artistName);
+
+    //get the data from the first api call
+    searchReq.on('end', function (item) {
+        res.json(item);
+    });
+
+    //error handling
+    searchReq.on('error', function (code) {
+        res.sendStatus(code);
+    });
+
+});
+
+
+// ---------------THIRD PARTY Concert API CALL-------------------------------------
+let getConcertsByArtist = function (artistId) {
+    let emitter = new events.EventEmitter();
+
+
+    let options = {
+        host: 'api.songkick.com',
+        path: "/api/3.0/artists/" + artistId + "/calendar.json?apikey=ZOV7FltnOvfdD7o9",
+        method: 'GET',
+        headers: {
+            'Content-Type': "application/json",
+            'Port': 443
+        }
+    };
+
+    https.get(options, function (res) {
+        let body = '';
+        res.on('data', function (chunk) {
+            body += chunk;
+            let jsonFormattedResults = JSON.parse(body);
+            emitter.emit('end', jsonFormattedResults);
+        });
+
+    }).on('error', function (e) {
+
+        emitter.emit('error', e);
+    });
+    return emitter;
+};
+
+//local API endpont communicating with the external api endpoint
+app.get('/songkick/concerts-by-artist', function (req, res) {
+
+
+    //external api function call and response ----- CALEB artistName or artist? ****
+    let searchReq = getConcertsByArtist(req.params.artistId);
+
+    //get the data from the first api call
+    searchReq.on('end', function (item) {
+        res.json(item);
+    });
+
+    //error handling
+    searchReq.on('error', function (code) {
+        res.sendStatus(code);
+    });
+
+});
+// -------------END THIRD PARTY ENDPOINTS------------------------------------------------
+
 
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
@@ -209,13 +309,14 @@ app.post('/users/login', function (req, res) {
 app.post('/followedArtists/create', (req, res) => {
     let artistName = req.body.artistName;
     let artistId = req.body.artistId;
+
     //unsure if i'm going to keep this one***
-    let artistUrl = req.body.artistUrl;
+//    let artistUrl = req.body.artistUrl;
 
     console.log(artistName, artistId);
 
     //external api function call and response
-    let searchReq = getFromBarchart(investmentSymbol);
+    let searchReq = getArtistFromSongkick(artistName);
 
     //get the data from the first api call
     searchReq.on('end', function (portfolioDetailsOutput) {

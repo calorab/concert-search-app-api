@@ -265,22 +265,6 @@ app.get('/songkick/concerts/:artistId', function (req, res) {
 
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
-// GET -----------------------------------------
-app.get('/followedArtists/:userId', function (req, res) {
-    FollowedArtists
-        .find({
-        userId: req.params.userId
-    }).exec().then(function (followedArtists) {
-        return res.json(followedArtists);
-    })
-        .catch(function (followedArtists) {
-        console.error(err);
-        res.status(500).json({
-            message: 'Internal Server Error'
-        });
-    });
-});
-
 // POST -----------------------------------------
 // creating a new followed artist
 app.post('/followedArtists/create', (req, res) => {
@@ -321,23 +305,17 @@ app.post('/followedArtists/create', (req, res) => {
     searchReq.on('error', function (code) {
         res.sendStatus(code);
     });
-
-
-
 });
 
-
-// GET ------------------------------------
-
-//DIRK -------- Is get-artist-by-id needed?
-
-// accessing a single investment by id
-app.get('/artist/:id', function (req, res) {
-    Investment
-        .findById(req.params.id).exec().then(function (investment) {
-        return res.json(investment);
+// GET -----------------------------------------
+app.get('/followedArtists/:userId', function (req, res) {
+    FollowedArtists
+        .find({
+        userId: req.params.userId
+    }).exec().then(function (followedArtists) {
+        return res.json(followedArtists);
     })
-        .catch(function (investment) {
+        .catch(function (followedArtists) {
         console.error(err);
         res.status(500).json({
             message: 'Internal Server Error'
@@ -346,9 +324,9 @@ app.get('/artist/:id', function (req, res) {
 });
 
 // DELETE ----------------------------------------
-// deleting an investment by id CALEB
-//app.delete('/investment/:id', function (req, res) {
-//    Investment.findByIdAndRemove(req.params.id).exec().then(function (investment) {
+// deleting a followedArtist by id CALEB
+//app.delete('/followedartists/:id', function (req, res) {
+//    FollowedArtists.findByIdAndRemove(req.params.id).exec().then(function (followedArtists) {
 //        return res.status(204).end();
 //    }).catch(function (err) {
 //        return res.status(500).json({

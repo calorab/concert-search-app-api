@@ -4,7 +4,7 @@ const faker = require('faker');
 const mongoose = require('mongoose');
 const moment = require('moment');
 
-// -------set up model fro Users-------
+// -------set up model for Users-------
 const User = require('../models/user');
 const {app, runServer, closeServer} = require('../server');
 const {

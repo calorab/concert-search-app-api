@@ -203,25 +203,6 @@ app.post('/users/login', function (req, res) {
 // ---------------END OF USER ENDPOINTS-------------------------------------
 
 // ---------------THIRD PARTY Artist API CALL-------------------------------------
-//let getArtistFromSongkick = function (artist) {
-//
-//    let options = {
-//        host: 'https://api.songkick.com/api/3.0/search/artists.json?apikey=ZOV7FltnOvfdD7o9&query=' + artist,
-//        headers: {
-//            'User-Agent': 'request'
-//        }
-//    };
-//
-//    function callback(error, response, body) {
-//        if (!error && response.statusCode == 200) {
-//            const info = JSON.parse(body);
-//            console.log(info);
-//            console.log('line 224');
-//        }
-//    }
-//
-//    request(options, callback);
-//};
 
 let getArtistFromSongkick = function (artist) {
     return new Promise((resolve, reject) => {
@@ -238,7 +219,8 @@ let getArtistFromSongkick = function (artist) {
         });
     });
 };
-//another function to format the data above
+
+//-------CALEB Will need another function to format the data above per Daniel
 
 app.get('/songkick/:artist', function (req, res) {
 
@@ -248,51 +230,35 @@ app.get('/songkick/:artist', function (req, res) {
         console.log(err);
         res.sendStatus(500);
     });
-//sendStatus could be wrong
 });
 
 
 // ---------------THIRD PARTY Concert API CALL-------------------------------------
+
 let getConcertsByArtist = function (artistId) {
-    let emitter = new events.EventEmitter();
-
-
-    let options = {
-        host: 'api.songkick.com/api/3.0/artists/' + artistId + "/calendar.json?apikey=ZOV7FltnOvfdD7o9",
-        headers: {
-            'User-Agent': 'request'
-        }
-    };
-
-    function callback(error, response, body) {
-        if (!error && response.statusCode == 200) {
-            const info = JSON.parse(body);
-            console.log(info);
-            console.log('line 224');
-        }
-    }
-
-    request(options, callback);
+    return new Promise((resolve, reject) => {
+        let options = {
+            url: 'https://api.songkick.com/api/3.0/artists/' + artistId + '/calendar.json?apikey=ZOV7FltnOvfdD7o9',
+            headers: {
+                'User-Agent': 'request'
+            }
+        };
+        request(options, (error, response, body) => {
+            if (error) return reject(error);
+            let info = JSON.parse(body);
+            resolve(info);
+        });
+    });
 };
 
+app.get('/songkick/concerts/:artistId', function (req, res) {
 
-//local API endpont communicating with the external api endpoint
-app.get('/songkick/concerts-by-artist', function (req, res) {
-
-
-    //external api function call and response ----- CALEB artistName or artist? ****
-    let searchReq = getConcertsByArtist(req.params.artistId);
-
-    //get the data from the first api call
-    searchReq.on('end', function (item) {
-        res.json(item);
+    getConcertsByArtist(req.params.artistId).then(concertResponse => {
+        res.json(concertResponse);
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(500);
     });
-
-    //error handling
-    searchReq.on('error', function (code) {
-        res.sendStatus(code);
-    });
-
 });
 // -------------END THIRD PARTY ENDPOINTS------------------------------------------------
 

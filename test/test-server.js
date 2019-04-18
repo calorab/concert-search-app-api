@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 
 // -------set up model for Users-------
-const User = require('../models/user');
+const User = require('../models/users');
 const {app, runServer, closeServer} = require('../server');
 const {
     TEST_DATABASE_URL

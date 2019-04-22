@@ -220,7 +220,7 @@ let getArtistFromSongkick = function (artist) {
     });
 };
 
-//-------CALEB Will need another function to format the data above per Daniel
+//-------CALEB Will need another function to format the data above per Daniel    974908(lady gaga)
 
 app.get('/songkick/:artist', function (req, res) {
 
@@ -266,44 +266,30 @@ app.get('/songkick/concerts/:artistId', function (req, res) {
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
+//email: testemail@gmail.com | password: 12345 (I think...) | userId: 5cb5a84d0c0aeb2ec15aa722
 // creating a new followed artist
 app.post('/followedArtists/create', (req, res) => {
     let artistName = req.body.artistName;
     let artistId = req.body.artistId;
+    let userId = req.body.userId;
 
-    //unsure if i'm going to keep this one***
-//    let artistUrl = req.body.artistUrl;
+    console.log(artistName, artistId, userId, 'line 276');
 
-    console.log(artistName, artistId);
-
-    //external api function call and response
-    let searchReq = getArtistFromSongkick(artistName);
-
-    //get the data from the first api call
-    searchReq.on('end', function (artistDetailsOutput) {
-        console.log(artistDetailsOutput);
-
-        //After gettig data from API, save in the DB
-        FollowedArtists.create({
-            artistName: artistDetailsOutput.results[0].artist.displayName,
-            artistId: artistDetailsOutput.results[0].artist.id,
-            artistUrl: artistDetailsOutput.results[0].artist.uri
-        }, (err, addedArtistDataOutput) => {
-            console.log(addedArtistDataOutput);
-            if (err) {
-                return res.status(500).json({
-                    message: 'Internal Server Error'
-                });
-            }
-            if (addedArtistDataOutput) {
-                return res.json(addedArtistDataOutput);
-            }
-        });
-    });
-
-    //error handling
-    searchReq.on('error', function (code) {
-        res.sendStatus(code);
+    // Save in the DB
+    FollowedArtists.create({
+        artistName,
+        artistId,
+        userId
+    }, (err, data) => {
+        console.log(data);
+        if (err) {
+            return res.status(500).json({
+                message: 'Internal Server Error'
+            });
+        }
+        if (data) {
+            return res.json(data);
+        }
     });
 });
 

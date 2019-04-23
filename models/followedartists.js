@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-
+// add user ID
 const followedArtistsSchema = new mongoose.Schema({
     artistName: {
         type: String,
@@ -12,7 +12,7 @@ const followedArtistsSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    artistUrl: {
+    userId: {
         type: String,
         required: false
     }

@@ -312,7 +312,7 @@ app.get('/followedArtists/:userId', function (req, res) {
 
 // DELETE ----------------------------------------
 //deleting a followedArtist by id CALEB
-app.delete('/followedartists/:id', function (req, res) {
+app.delete('/followedArtists/:id', function (req, res) {
     FollowedArtists.findByIdAndRemove(req.params.id).exec().then(function (followedArtists) {
         return res.status(204).end();
     }).catch(function (err) {
@@ -323,4 +323,4 @@ app.delete('/followedartists/:id', function (req, res) {
 });
 // -------------END FollowedArtists ENDPOINTS------------------------------------------------
 
-module.exports = {app};
+module.exports = {app, runServer, closeServer};

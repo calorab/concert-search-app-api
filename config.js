@@ -1,19 +1,14 @@
 
 module.exports = {
-    CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'http://localhost:3000/',
+    CLIENT_ORIGIN: process.env.CLIENT_ORIGIN || 'https:localhost:3000',
     DATABASE_URL: process.env.DATABASE_URL || global.DATABASE_URL || 'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true',
     TEST_DATABASE_URL: process.env.TEST_DATABASE_URL ||
     'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true',
     PORT: process.env.PORT || 8080
 };
-    //'https://guarded-taiga-49879.herokuapp.com/'
+    // CLIENT_ORIGIN:'https://guarded-taiga-49879.herokuapp.com/'
 
 
-
-
-
-//per Dirk - notes
-//export.API_ENDPOINT=''
 
 //-------
 //-------JSON response for artist search:

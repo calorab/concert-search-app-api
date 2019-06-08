@@ -15,6 +15,7 @@ const https = require('https');
 const http = require('http');
 const request = require('request');
 
+const { router: authRouter, localStrategy, jwtStrategy } = require('./authorize');
 // -------need webpack??? -------
 
 var unirest = require('unirest');
@@ -31,6 +32,11 @@ app.use(
 );
 
 mongoose.Promise = global.Promise;
+
+passport.use(localStrategy);
+passport.use(jwtStrategy);
+
+const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // ---------------- RUN/CLOSE SERVER -----------------------------------------------------
 let server;
@@ -266,7 +272,7 @@ app.get('/songkick/concerts/:artistId', function (req, res) {
 
 // -------------FollowedArtists ENDPOINTS------------------------------------------------
 // POST -----------------------------------------
-//email: testemail@gmail.com | password: 12345 (I think...) | userId: 5cb5a84d0c0aeb2ec15aa722
+//email: testemail@gmail.com | password: 12345678 | userId: 5cb5a84d0c0aeb2ec15aa722
 // creating a new followed artist
 app.post('/followedArtists/create', (req, res) => {
     let artistName = req.body.artistName;

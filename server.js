@@ -16,7 +16,6 @@ const http = require('http');
 const request = require('request');
 
 const { router: authRouter, localStrategy, jwtStrategy } = require('./authorize');
-// -------need webpack??? -------
 
 var unirest = require('unirest');
 var events = require('events');

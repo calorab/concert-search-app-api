@@ -6,6 +6,9 @@ module.exports = {
     'mongodb+srv://admin:12345@cluster0-6akq9.mongodb.net/test?retryWrites=true',
     PORT: process.env.PORT || 8080
 };
+
+exports.JWT_SECRET = process.env.JWT_SECRET || 'secret'
+
     // CLIENT_ORIGIN:'https://guarded-taiga-49879.herokuapp.com/'
 
 

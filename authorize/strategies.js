@@ -1,10 +1,12 @@
 const { Strategy: LocalStrategy } = require('passport-local');
-
+// require('dotenv').config;
 // Assigns the Strategy export to the name JwtStrategy using object destructuring
 // https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#Assigning_to_new_variable_names
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 
-const { User } = require('../users/models');
+const { User } = require('../models/users');
+
+//somehow not connected - line 46
 const { JWT_SECRET } = require('../config');
 
 const localStrategy = new LocalStrategy((username, password, callback) => {
@@ -38,10 +40,11 @@ const localStrategy = new LocalStrategy((username, password, callback) => {
       return callback(err, false);
     });
 });
-
+// atom (by github)
 const jwtStrategy = new JwtStrategy(
   {
-    secretOrKey: JWT_SECRET,
+    //JWT_SECRET
+    secretOrKey: 'secret',
     // Look for the JWT as a Bearer auth header
     jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme('Bearer'),
     // Only allow HS256 tokens - the same as the ones we issue

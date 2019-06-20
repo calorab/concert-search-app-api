@@ -9,13 +9,11 @@ const config = require('./config');
 const mongoose = require('mongoose');
 const moment = require('moment');
 const bcrypt = require('bcryptjs');
-const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
+// const passport = require('passport');
+// const BasicStrategy = require('passport-http').BasicStrategy;
 const https = require('https');
 const http = require('http');
 const request = require('request');
-
-const { router: authRouter, localStrategy, jwtStrategy } = require('./authorize');
 
 var unirest = require('unirest');
 var events = require('events');
@@ -31,11 +29,6 @@ app.use(
 );
 
 mongoose.Promise = global.Promise;
-
-passport.use(localStrategy);
-passport.use(jwtStrategy);
-
-const jwtAuth = passport.authenticate('jwt', { session: false });
 
 // ---------------- RUN/CLOSE SERVER -----------------------------------------------------
 let server;
